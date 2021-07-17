@@ -15,9 +15,7 @@ Library("sfml", [
 
 dirs = [
 	"src",
-	"src/particles",
-	"src/components",
-	"src/system",
+	"dust",
 ]
 
 incl = [

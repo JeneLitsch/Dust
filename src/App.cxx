@@ -3,10 +3,7 @@
 #include <memory>
 #include <iostream>
 #include "sfml.hxx"
-#include "Dust-BasicParticleSystem.hxx"
-#include "Dust-SingleColor.hxx"
-#include "Dust-MultiColor.hxx"
-#include "Dust-ColorInterpolate.hxx"
+#include "Dust.hxx"
 
 sf::FloatRect calcViewPort(sf::Window & window, sf::View view) {
 	float aspectRatioWindow =
@@ -46,12 +43,15 @@ void App::run() {
 	sf::RectangleShape rect;
 
 	
-	std::unique_ptr<dust::IParticleSystem> particleSystem
-		= std::make_unique<
-			dust::BasicParticleSystem<dust::MultiColor<dust::ColorInterpolate>, 25000>
-		>(	dust::MultiColor<dust::ColorInterpolate>(dust::ColorInterpolate(sf::Color::Cyan, sf::Color::Red), 0.25, 5.0));
+	std::unique_ptr<dust::IAutomaticParticleSystem> particleSystem = std::make_unique<
+		dust::AutomaticParticleSystem<dust::MultiColor<dust::ColorInterpolate>, 250>>(
+			dust::MultiColor(
+				10.0, 0.5, 90.0, 22.5,
+				dust::ColorInterpolate(sf::Color(255, 255, 0), sf::Color::Red)));
 
 	particleSystem->setPosition({500.f, 500.f});
+	particleSystem->setRotation(45.0);
+	particleSystem->emit(1.0);
 	
 	double timer;
 	while(window.isOpen()) {
@@ -74,7 +74,6 @@ void App::run() {
 		}
 		timer += dt;
 		if(timer >= 0.1) {
-			particleSystem->emit(500);
 			timer = 0.0;
 		}
 
