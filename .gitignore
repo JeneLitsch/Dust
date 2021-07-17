@@ -1,0 +1,7 @@
+.vscode
+/particles
+**.dblite
+/libs
+/depends
+**.o
+**.a

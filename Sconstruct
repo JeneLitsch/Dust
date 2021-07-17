@@ -1,0 +1,42 @@
+flags = flags = [
+	"-std=c++2a",
+	"-Wall", "-Wextra", "-Wconversion", "-Wunreachable-code", "-Wuninitialized", "-pedantic-errors" , "-Wold-style-cast", "-Wno-error=unused-variable"
+	]
+
+Library("sfml", [
+	"depends/libsfml-graphics.so.2.5.1",
+	"depends/libsfml-audio.so.2.5.1",
+	"depends/libsfml-network.so.2.5.1",
+	"depends/libsfml-system.so.2.5.1",
+	"depends/libsfml-window.so.2.5.1",
+] , CXXFLAGS = flags)
+
+
+
+dirs = [
+	"src",
+	"src/particles",
+	"src/components",
+	"src/system",
+]
+
+incl = [
+	"libs/SFML-Linux/include"
+]
+libs = [
+	"sfml"]
+
+
+files = []
+for dir in dirs:
+	files.append(Glob(dir + "/*.cxx"))
+
+
+env = Environment(CXX = "clang++", CXXFLAGS = flags, CPPPATH = dirs + incl, CPPDEFINES = [], LIBS = libs, LIBPATH = ".", SCONS_CXX_STANDART="c++20",
+	RPATH = "depends",
+	CXXCOMSTR = "[Compiling] $TARGET",
+	LINKCOMSTR = "[Linking] $TARGET")
+env.Append(CPPDEFINES = [
+	"SFML_STATIC"
+])
+env.Program('particles', files)
