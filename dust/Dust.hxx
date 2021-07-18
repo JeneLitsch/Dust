@@ -6,9 +6,15 @@
 #include "systems/AutomaticParticleSystem.hxx"
 
 #include "particles/BasicParticle.hxx"
-#include "particles/Colored.hxx"
-#include "particles/Textured.hxx"
 
-#include "components/InterpolateColor.hxx"
-#include "components/ConstantColor.hxx"
-#include "components/ConstantVelocity.hxx"
+#include "policies/None.hxx"
+#include "policies/EmitPoint.hxx"
+#include "policies/ColorInterpolate.hxx"
+#include "policies/ColorConstant.hxx"
+#include "policies/Movement.hxx"
+#include "policies/RotationConstant.hxx"
+#include "policies/RenderColor.hxx"
+#include "policies/RenderTexture.hxx"
+
+
+

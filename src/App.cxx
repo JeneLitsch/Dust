@@ -69,17 +69,23 @@ void App::run() {
 	// fireParticleSystem->emit(0.01);
 	// fireParticleSystem->getProcessor().setTexture(fireTexture);
 
+	sf::Texture fireTexture;
+	// fireTexture.loadFromFile("ice.png");
+
 	std::unique_ptr particleSystem = std::make_unique<
 		dust::AutomaticParticleSystem<
-			
-			dust::Colored<
-				dust::InterpolateColor,
-				dust::ConstantVelocity>, 25000>>(
-			
-			dust::Colored(
-				10.0, 0.0, -90.0, 45.0,
-				dust::InterpolateColor(sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 0)),
-				dust::ConstantVelocity(100.f)));
+			25000, dust::BasicParticle,
+			dust::policy::EmitPoint,
+			dust::policy::ColorInterpolate,
+			dust::policy::Movement,
+			dust::policy::RotationConstant,
+			dust::policy::RenderColor
+		>>();
+
+	particleSystem->configColor(sf::Color::Cyan, sf::Color(64, 0, 128));
+	// particleSystem->configRender(fireTexture);
+	particleSystem->configEmit(90.f, 180.0, 100.f, 1.0f, 0.0, 0.0);
+	particleSystem->configRotation(46.f);
 
 	particleSystem->setPosition({960.f, 540.f});
 	particleSystem->setRotation(0.0);

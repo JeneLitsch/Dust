@@ -1,17 +1,21 @@
 #pragma once
-
+#include "sfml.hxx"
 namespace dust {
-	// A basic particle
 	struct BasicParticle {
-		// Particle evaluates to true if alive
-		inline operator bool() const {	return this->alive;	}
 
+		inline operator bool() const {
+			return alive;
+		}
 		bool alive = false;
-		float age = 0.0;
-		sf::Vector2f velocity;
-		sf::Vector2f size;
-		sf::Vector2f position;
+		float age = 0.f;
+		float lifetime = 0.f;
+		float rotation = 0.f;
+		float scale = 1.f;
 
-		float rotation;
+		sf::Vector2f position = sf::Vector2f(0.f, 0.f);
+		sf::Vector2f velocity = sf::Vector2f(0.f, 0.f);
+		sf::Vector2f size = sf::Vector2f(1.f, 1.f);
+
+		sf::Color color = sf::Color::White;
 	};
-};
+}
