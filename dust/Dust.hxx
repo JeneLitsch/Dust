@@ -7,7 +7,8 @@
 
 #include "particles/BasicParticle.hxx"
 #include "particles/Colored.hxx"
-#include "particles/SingleColor.hxx"
-#include "particles/MultiColor.hxx"
+#include "particles/Textured.hxx"
 
-#include "components/ColorInterpolate.hxx"
+#include "components/InterpolateColor.hxx"
+#include "components/ConstantColor.hxx"
+#include "components/ConstantVelocity.hxx"

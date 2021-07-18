@@ -34,11 +34,15 @@ namespace dust {
 
 		// Render all "living" particles
 		virtual void render(sf::RenderTarget & renderTarget) override final {
-			this->vertexArray.clear();
+			// setup render states
 			sf::RenderStates states;
 			states.transform = sf::Transform()
 				.translate(this->position)
-				.rotate(this->rotation);
+				.rotate(static_cast<float>(this->rotation));
+			states.texture = processor.getTexture();
+
+			// fill vertex array
+			this->vertexArray.clear();
 			for(std::size_t i = 0; i < limit; i++) {
 				// For rendering newest particles on top
 				// Start at next and wrap around if nessasary
@@ -59,6 +63,14 @@ namespace dust {
 		// Sets rotation in degrees
 		virtual void setRotation(double degrees) override final {
 			this->rotation = degrees;
+		}
+
+		TParticleProcessor & getProcessor() {
+			return this->processor;
+		}
+
+		const TParticleProcessor & getProcessor() const {
+			return this->processor;
 		}
 
 	protected:

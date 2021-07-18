@@ -10,6 +10,7 @@ namespace dust {
 		ManualParticleSystem(const TParticleProcessor & processor)
 		:	BasicParticleSystem<TParticleProcessor, limit>(processor) {}
 
+		// Emit a amount of particles
 		virtual void emit(std::size_t amount) override final {
 			BasicParticleSystem<TParticleProcessor, limit>::emitInternal(amount);
 		}

@@ -42,15 +42,47 @@ void App::run() {
 
 	sf::RectangleShape rect;
 
-	
-	std::unique_ptr<dust::IAutomaticParticleSystem> particleSystem = std::make_unique<
-		dust::AutomaticParticleSystem<dust::MultiColor<dust::ColorInterpolate>, 250>>(
-			dust::MultiColor(
-				10.0, 0.5, 90.0, 22.5,
-				dust::ColorInterpolate(sf::Color(255, 255, 0), sf::Color::Red)));
+	// sf::Texture iceTexture;
+	// iceTexture.loadFromFile("ice.png");
+	// std::unique_ptr iceParticleSystem = std::make_unique<
+	// 	dust::AutomaticParticleSystem<dust::Textured<dust::InterpolateColor>, 25000>>(
+	// 		dust::Textured(
+	// 			10.0, 0.5, 90.0, 45.0,
+	// 			dust::InterpolateColor(sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 0))));
 
-	particleSystem->setPosition({500.f, 500.f});
-	particleSystem->setRotation(45.0);
+	// iceParticleSystem->setPosition({960.f, 540.f});
+	// iceParticleSystem->setRotation(0.0);
+	// iceParticleSystem->emit(0.01);
+	// iceParticleSystem->getProcessor().setTexture(iceTexture);
+
+
+	// sf::Texture fireTexture;
+	// fireTexture.loadFromFile("fire.png");
+	// std::unique_ptr fireParticleSystem = std::make_unique<
+	// 	dust::AutomaticParticleSystem<dust::Textured<dust::InterpolateColor>, 25000>>(
+	// 		dust::Textured(
+	// 			10.0, 0.0, -90.0, 45.0,
+	// 			dust::InterpolateColor(sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 0))));
+
+	// fireParticleSystem->setPosition({960.f, 540.f});
+	// fireParticleSystem->setRotation(0.0);
+	// fireParticleSystem->emit(0.01);
+	// fireParticleSystem->getProcessor().setTexture(fireTexture);
+
+	std::unique_ptr particleSystem = std::make_unique<
+		dust::AutomaticParticleSystem<
+			
+			dust::Colored<
+				dust::InterpolateColor,
+				dust::ConstantVelocity>, 25000>>(
+			
+			dust::Colored(
+				10.0, 0.0, -90.0, 45.0,
+				dust::InterpolateColor(sf::Color(255, 255, 255, 255), sf::Color(255, 255, 255, 0)),
+				dust::ConstantVelocity(100.f)));
+
+	particleSystem->setPosition({960.f, 540.f});
+	particleSystem->setRotation(0.0);
 	particleSystem->emit(1.0);
 	
 	double timer;
@@ -79,6 +111,11 @@ void App::run() {
 
 		std::cout << 1.0 / dt << std::endl;
 		window.clear(sf::Color::Black);
+		// iceParticleSystem->update(dt);
+		// fireParticleSystem->update(dt);
+		// iceParticleSystem->render(window);
+		// fireParticleSystem->render(window);
+
 		particleSystem->update(dt);
 		particleSystem->render(window);
 		window.display();

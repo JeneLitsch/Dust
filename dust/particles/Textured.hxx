@@ -1,43 +1,32 @@
 #pragma once
-#include "BasicParticle.hxx"
-#include "BasicProcessor.hxx"
-
+#include "Colored.hxx"
 namespace dust {
-	// Particle Processor Base for particles with any form of simple color 
 	template<
 		class ColorSource,
 		class TVelocity>
-	class Colored : public BasicProcessor<BasicParticle, TVelocity> {
+	class Textured : public Colored<ColorSource, TVelocity> {
 	public:
-		struct Particle : public BasicParticle {
-
-			sf::Color color;
-		};
-
-		Colored(
+		Textured(
 			float lifetime,
 			float rotationSpeed,
 			float emmisionAngle,
 			float emmisionSpread,
-			const ColorSource & colorSource,
+			ColorSource colorSource,
 			const TVelocity & velocity)
-		:	BasicProcessor<BasicParticle, TVelocity>(
+		:	Colored<ColorSource, TVelocity>(
 				lifetime,
 				rotationSpeed,
 				emmisionAngle,
 				emmisionSpread,
-				velocity),
-			colorSource(colorSource) {}
+				colorSource,
+				velocity) {}
 
-
-		inline void process(Colored::Particle & particle, double dt) const {
-			BasicProcessor<BasicParticle, TVelocity>::process(particle, dt);
-			particle.color = colorSource(particle.age / this->lifetime);
+		void setTexture(const sf::Texture & texture) {
+			this->texture = texture;
 		}
 
-
 		// Add vertecies of a colored particle to vertexArray
-		inline void render(Particle & particle, sf::VertexArray & vertexArray) const {
+		inline void render(typename Colored<ColorSource, TVelocity>::Particle & particle, sf::VertexArray & vertexArray) const {
 			sf::Transform transform;
 			transform
 				.translate(particle.position)
@@ -47,25 +36,38 @@ namespace dust {
 			const float top = -down;
 			const float right = 0.5 * particle.size.y;
 			const float left = -right;
-		
+
+			const float texTop = 0.f;
+			const float texDown = texture.getSize().x;
+			const float texLeft = 0.f;
+			const float texRight = texture.getSize().y;
+			
 			vertexArray.append(sf::Vertex(
 				transform.transformPoint(top, left),
-				particle.color));
+				particle.color,
+				sf::Vector2f(texTop, texLeft)));
 
 			vertexArray.append(sf::Vertex(
 				transform.transformPoint(top, right),
-				particle.color));
+				particle.color,
+				sf::Vector2f(texTop, texRight)));
 
 			vertexArray.append(sf::Vertex(
 				transform.transformPoint(down, right),
-				particle.color));
+				particle.color,
+				sf::Vector2f(texDown, texRight)));
 
 			vertexArray.append(sf::Vertex(
 				transform.transformPoint(down, left),
-				particle.color));
+				particle.color,
+				sf::Vector2f(texDown, texLeft)));
 		}
 
-	protected:
-		ColorSource colorSource;
+		const sf::Texture * getTexture() const {
+			return &texture;
+		}
+
+	private:
+		sf::Texture texture;
 	};
 }
