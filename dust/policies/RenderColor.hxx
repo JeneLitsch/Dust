@@ -5,7 +5,7 @@ namespace dust {
 	namespace policy {
 		class RenderColor {
 		public:
-			inline void operator()(auto & particle, sf::VertexArray & vertexArray) const {
+			inline void operator()(auto & particle, sf::Vertex * vertexStart) const {
 				sf::Transform transform;
 				transform
 					.translate(particle.position)
@@ -17,21 +17,21 @@ namespace dust {
 				const float right = x * particle.size.y;
 				const float left = -right;
 			
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 0) = sf::Vertex(
 					transform.transformPoint(top, left),
-					particle.color));
+					particle.color);
 
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 1) = sf::Vertex(
 					transform.transformPoint(top, right),
-					particle.color));
+					particle.color);
 
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 2) = sf::Vertex(
 					transform.transformPoint(down, right),
-					particle.color));
+					particle.color);
 
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 3) = sf::Vertex(
 					transform.transformPoint(down, left),
-					particle.color));
+					particle.color);
 			}
 
 			const sf::Texture * getTexture() { return nullptr; }

@@ -25,9 +25,7 @@ namespace dust {
 		public RenderPolicy {
 	public:
 		
-		BasicParticleSystem() {
-			this->vertexArray.setPrimitiveType(sf::PrimitiveType::Quads);	
-		}
+		BasicParticleSystem() {}
 
 		virtual ~BasicParticleSystem() = default;
 
@@ -58,16 +56,17 @@ namespace dust {
 			states.shader = RenderPolicy::getShader();
 
 			// fill vertex array
-			this->vertexArray.clear();
+			std::size_t vertexCounter = 0;
 			for(std::size_t i = 0; i < limit; i++) {
 				// For rendering newest particles on top
 				// Start at next and wrap around if nessasary
 				std::size_t idx = (this->next + i) % limit;
 				if(particles[idx]) {
-					RenderPolicy::operator()(particles[idx], this->vertexArray);
+					RenderPolicy::operator()(particles[idx], &vertecies[vertexCounter]);
+					vertexCounter += 4U;
 				}
 			}
-			renderTarget.draw(vertexArray, states);
+			renderTarget.draw(vertecies.data(), vertexCounter, sf::PrimitiveType::Quads, states);
 			// std::cout << vertexArray.getVertexCount() / 4 << std::endl;
 		}
 
@@ -96,9 +95,8 @@ namespace dust {
 		virtual void onUpdate(double dt) {};
 
 		std::array<Particle, limit> particles;
+		std::array<sf::Vertex, limit * 4U> vertecies;
 		std::size_t next;
-		
-		sf::VertexArray vertexArray;
 		
 		sf::Vector2f position;
 		double rotation;

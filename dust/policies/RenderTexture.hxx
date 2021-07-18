@@ -4,7 +4,7 @@ namespace dust {
 	namespace policy {
 		class RenderTexture {
 		public:
-			inline void operator()(auto & particle, sf::VertexArray & vertexArray) const {
+			inline void operator()(auto & particle, sf::Vertex * vertexStart) const {
 				sf::Transform transform;
 				transform
 					.translate(particle.position)
@@ -20,25 +20,25 @@ namespace dust {
 				const float texLeft = 0.f;
 				const float texRight = texture.getSize().y;
 				
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 0) = sf::Vertex(
 					transform.transformPoint(top, left),
 					particle.color,
-					sf::Vector2f(texTop, texLeft)));
+					sf::Vector2f(texTop, texLeft));
 
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 1) = sf::Vertex(
 					transform.transformPoint(top, right),
 					particle.color,
-					sf::Vector2f(texTop, texRight)));
+					sf::Vector2f(texTop, texRight));
 
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 2) = sf::Vertex(
 					transform.transformPoint(down, right),
 					particle.color,
-					sf::Vector2f(texDown, texRight)));
+					sf::Vector2f(texDown, texRight));
 
-				vertexArray.append(sf::Vertex(
+				*(vertexStart + 3) = sf::Vertex(
 					transform.transformPoint(down, left),
 					particle.color,
-					sf::Vector2f(texDown, texLeft)));
+					sf::Vector2f(texDown, texLeft));
 			}
 		
 		const sf::Texture * getTexture() { return &this->texture; }

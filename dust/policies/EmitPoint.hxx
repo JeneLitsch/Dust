@@ -26,7 +26,7 @@ namespace dust {
 				particle.age = 0.f;
 				particle.alive = true;
 				particle.position = sf::Vector2f(0.f, 0.f);
-				particle.size = sf::Vector2f(16.f, 16.f);
+				particle.size = sf::Vector2f(32.f, 32.f);
 				particle.lifetime = this->getLifetime();
 				particle.color = sf::Color::White;
 			}
