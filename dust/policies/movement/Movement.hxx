@@ -2,8 +2,8 @@
 namespace dust {
 	namespace policy {
 		class Movement {
-		public:
-			void operator()(auto & particle, double dt) {
+		protected:
+			void operator()(auto & particle, float dt) {
 				particle.position += particle.velocity * float(dt);
 			};
 		};

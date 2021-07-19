@@ -8,13 +8,20 @@
 #include "particles/BasicParticle.hxx"
 
 #include "policies/None.hxx"
-#include "policies/EmitPoint.hxx"
-#include "policies/ColorInterpolate.hxx"
-#include "policies/ColorConstant.hxx"
-#include "policies/Movement.hxx"
-#include "policies/RotationConstant.hxx"
-#include "policies/RenderColor.hxx"
-#include "policies/RenderTexture.hxx"
+#include "policies/emit/EmitPoint.hxx"
+#include "policies/emit/EmitRect.hxx"
+#include "policies/emit/EmitCircle.hxx"
+#include "policies/color/ColorConstant.hxx"
+#include "policies/color/ColorLinear.hxx"
+#include "policies/movement/Movement.hxx"
+#include "policies/movement/MovementDampening.hxx"
+#include "policies/movement/MovementAcceleration.hxx"
+#include "policies/rotate/RotationConstant.hxx"
+#include "policies/scale/ScaleConstant.hxx"
+#include "policies/scale/ScaleLinear.hxx"
+#include "policies/scale/ScaleParabola.hxx"
+#include "policies/render/RenderColor.hxx"
+#include "policies/render/RenderTexture.hxx"
 
 
 

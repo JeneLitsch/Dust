@@ -74,18 +74,23 @@ void App::run() {
 
 	std::unique_ptr particleSystem = std::make_unique<
 		dust::AutomaticParticleSystem<
-			250, dust::BasicParticle,
-			dust::policy::EmitPoint,
-			dust::policy::ColorInterpolate,
-			dust::policy::Movement,
+			25000, dust::BasicParticle<0>,
+			dust::policy::EmitRect,
+			dust::policy::ColorLinear,
+			dust::policy::MovementAcceleration,
 			dust::policy::RotationConstant,
+			dust::policy::ScaleParabola,
 			dust::policy::RenderTexture
 		>>();
 
 	particleSystem->configColor(sf::Color::Cyan, sf::Color(64, 0, 128));
 	particleSystem->configRender(fireTexture);
-	particleSystem->configEmit(90.f, 180.0, 100.f, 1.0f, 0.0, 0.0);
+	particleSystem->configEmit(90.f, 180.0, 5.f, 1.0f, 0.0, 360.0);
+	particleSystem->configEmitRect(sf::Vector2f(1920, 0));
+	// particleSystem->configEmitCircle(256.f);
 	particleSystem->configRotation(46.f);
+	particleSystem->configScale(0.f, 1.f);
+	particleSystem->configMovement(1.0f);
 
 	particleSystem->setPosition({960.f, 540.f});
 	particleSystem->setRotation(0.0);
@@ -113,6 +118,10 @@ void App::run() {
 		timer += dt;
 		if(timer >= 0.1) {
 			timer = 0.0;
+		}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+			return;
 		}
 
 		std::cout << 1.0 / dt << std::endl;

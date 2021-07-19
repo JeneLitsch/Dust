@@ -1,18 +1,31 @@
-// #pragma once
-// #include "BasicParticleSystem.hxx"
+#pragma once
+#include "BasicParticleSystem.hxx"
+#include <cmath>
+namespace dust {
+	template<
+		std::size_t limit,
+		class Particle,
+		class EmitPolicy,
+		class ColorPolicy,
+		class MovementPolicy,
+		class RotationPolicy,
+		class ScalePolicy,
+		class RenderPolicy>
+	class MainualParticleSystem 
+	:	virtual public BasicParticleSystem<
+			limit, Particle,
+			EmitPolicy,
+			ColorPolicy,
+			MovementPolicy,
+			RotationPolicy,
+			ScalePolicy,
+			RenderPolicy>,
+		virtual public IManualParticleSystem {
+	public:
 
-// namespace dust {
-// 	template<class TParticleProcessor, std::size_t limit>
-// 	class ManualParticleSystem 
-// 	:	virtual public BasicParticleSystem<TParticleProcessor, limit>,
-// 		virtual public IManualParticleSystem {
-// 	public:
-// 		ManualParticleSystem(const TParticleProcessor & processor)
-// 		:	BasicParticleSystem<TParticleProcessor, limit>(processor) {}
+		virtual void emit(std::size_t amount) override final {
+			this->emitParticles(amount);
+		}
 
-// 		// Emit a amount of particles
-// 		virtual void emit(std::size_t amount) override final {
-// 			BasicParticleSystem<TParticleProcessor, limit>::emitInternal(amount);
-// 		}
-// 	};
-// }
+	};
+}

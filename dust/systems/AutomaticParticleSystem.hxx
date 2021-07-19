@@ -9,6 +9,7 @@ namespace dust {
 		class ColorPolicy,
 		class MovementPolicy,
 		class RotationPolicy,
+		class ScalePolicy,
 		class RenderPolicy>
 	class AutomaticParticleSystem 
 	:	virtual public BasicParticleSystem<
@@ -17,6 +18,7 @@ namespace dust {
 			ColorPolicy,
 			MovementPolicy,
 			RotationPolicy,
+			ScalePolicy,
 			RenderPolicy>,
 		virtual public IAutomaticParticleSystem {
 	public:
@@ -33,7 +35,7 @@ namespace dust {
 			
 			// emit
 			if(deltaEmit > 0.0) {
-				std::size_t amount = std::roundl(timer / deltaEmit);
+				std::size_t amount = static_cast<std::size_t>(timer / deltaEmit);
 				this->timer -= double(amount) * deltaEmit;
 				this->emitParticles(amount);
 			}
@@ -46,9 +48,6 @@ namespace dust {
 		}
 
 	private:
-
-
-
 		double emission;
 		double timer;
 	};

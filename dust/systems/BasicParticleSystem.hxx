@@ -15,6 +15,7 @@ namespace dust {
 		class ColorPolicy,
 		class MovementPolicy,
 		class RotationPolicy,
+		class ScalePolicy,
 		class RenderPolicy>
 	class BasicParticleSystem : 
 		virtual public IParticleSystem,
@@ -22,6 +23,7 @@ namespace dust {
 		public ColorPolicy,
 		public MovementPolicy,
 		public RotationPolicy,
+		public ScalePolicy,
 		public RenderPolicy {
 	public:
 		
@@ -32,13 +34,15 @@ namespace dust {
 
 		// Update all living particles
 		virtual void update(double dt) override {
+			float dtFloat = static_cast<float>(dt);
 			this->onUpdate(dt);
 			for(auto & particle : particles) {
 				if(particle) {
 					ColorPolicy::operator()(particle);
-					MovementPolicy::operator()(particle, dt);
-					RotationPolicy::operator()(particle, dt);
-					particle.age += float(dt);
+					MovementPolicy::operator()(particle, dtFloat);
+					RotationPolicy::operator()(particle, dtFloat);
+					ScalePolicy::operator()(particle);
+					particle.age += dtFloat;
 					particle.alive = particle.age <= particle.lifetime;
 				}
 			}
@@ -92,7 +96,7 @@ namespace dust {
 			}
 		}
 
-		virtual void onUpdate(double dt) {};
+		virtual void onUpdate(double dt) { (void)(dt); };
 
 		std::array<Particle, limit> particles;
 		std::array<sf::Vertex, limit * 4U> vertecies;
@@ -101,4 +105,4 @@ namespace dust {
 		sf::Vector2f position;
 		double rotation;
 	};
-};
+}

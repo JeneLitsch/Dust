@@ -4,7 +4,7 @@
 namespace dust {
 	namespace policy {
 		class RenderColor {
-		public:
+		protected:
 			inline void operator()(auto & particle, sf::Vertex * vertexStart) const {
 				sf::Transform transform;
 				transform

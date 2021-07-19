@@ -2,15 +2,18 @@
 
 namespace dust {
 	namespace policy {
+		// Rotate particle with contant speed 
 		class RotationConstant {
 		public:
-			inline void operator()(auto & particle, double dt) {
-				particle.rotation += this->speed * dt;
-			}
-
 			void configRotation(float speed) {
 				this->speed = speed;
 			}
+		
+		protected:
+			inline void operator()(auto & particle, float dt) {
+				particle.rotation += this->speed * dt;
+			}
+
 		private:
 			float speed;
 		};
