@@ -48,30 +48,11 @@ namespace dust {
 			}
 		}
 
+
 		// Render all "living" particles
-		virtual void render(sf::RenderTarget & renderTarget) override final {
-			// setup render states
-			sf::RenderStates states;
-			states.transform = sf::Transform()
-				.translate(this->position)
-				.rotate(static_cast<float>(this->rotation));
-
-			states.texture = RenderPolicy::getTexture();
-			states.shader = RenderPolicy::getShader();
-
-			// fill vertex array
-			std::size_t vertexCounter = 0;
-			for(std::size_t i = 0; i < limit; i++) {
-				// For rendering newest particles on top
-				// Start at next and wrap around if nessasary
-				std::size_t idx = (this->next + i) % limit;
-				if(particles[idx]) {
-					RenderPolicy::operator()(particles[idx], &vertecies[vertexCounter]);
-					vertexCounter += 4U;
-				}
-			}
-			renderTarget.draw(vertecies.data(), vertexCounter, sf::PrimitiveType::Quads, states);
-			// std::cout << vertexArray.getVertexCount() / 4 << std::endl;
+		virtual void render(sf::RenderTarget & renderTarget) override {
+			std::size_t vertexCount = this->fillVertexArray();
+			this->draw(renderTarget, vertexCount);
 		}
 
 		// Set center of emission
@@ -84,8 +65,37 @@ namespace dust {
 			this->rotation = degrees;
 		}
 
-
 	protected:
+		inline void draw(sf::RenderTarget & renderTarget, std::size_t vertexCount) {
+			// setup render states
+			sf::RenderStates states;
+			states.transform = sf::Transform()
+				.translate(this->position)
+				.rotate(static_cast<float>(this->rotation));
+			states.texture = RenderPolicy::getTexture();
+			states.shader = RenderPolicy::getShader();
+			
+			// drawcall
+			renderTarget.draw(vertecies.data(), vertexCount, sf::PrimitiveType::Quads, states);
+		}
+
+
+		inline std::size_t fillVertexArray() {
+			std::size_t vertexCount = 0;
+			// fill vertex array
+			for(std::size_t i = 0; i < limit; i++) {
+				// For rendering newest particles on top
+				// Start at next and wrap around if nessasary
+				std::size_t idx = (this->next + i) % limit;
+				if(particles[idx]) {
+					RenderPolicy::operator()(particles[idx], &vertecies[vertexCount]);
+					vertexCount += 4U;
+				}
+			}
+			return vertexCount;
+		}
+
+
 		inline void emitParticles(std::size_t amount) {
 			if(!this->particles[this->next]) {
 				for(std::size_t i = 0; i < amount; i++) {

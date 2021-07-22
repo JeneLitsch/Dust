@@ -1,59 +1,52 @@
 #pragma once
 #include <random>
 #include "sfml.hxx"
+#include "VectorUtils.hxx"
 
 namespace dust {
 	namespace policy {
 		// Base utility class for emisson policies
 		class EmitBasic {
 		public:
-			void configEmit(
-				float angle,
-				float spread,
-				float initialSpeed,
-				float speedVariation,
-				float initialRotation,
-				float rotationVariation) {
+			void configLifetime(float lifetime) {
+				this->lifetime = lifetime;
+			}
 
-				this->angle = angle;
-				this->spread = spread;
+			void configEmitSpeed(float initialSpeed, float speedVariation) {
 				this->initialSpeed = initialSpeed;
 				this->speedVariation = speedVariation;
+			}
+
+			void configEmitRotation(float initialRotation, float rotationVariation) {
 				this->initialRotation = initialRotation;
 				this->rotationVariation = rotationVariation;
 			}
+
 		protected:
-
-
 			EmitBasic() {
-				random.seed(std::random_device()());
+				this->random.seed(std::random_device()());
+				this->lifetime = 5.f;
 			}
 
-			inline float randFloat(float from, float to) {
-				return std::uniform_real_distribution(from, to)(random);
+			template<typename T>
+			inline T randFloat(T from, T to) {
+				return std::uniform_real_distribution<T>(from, to)(this->random);
 			}
 
-			static inline sf::Vector2f toVector(float angle) {
-				constexpr const float degToRad = float(M_PI) / 180.f;
-				float radianAngle = (angle - 90.f) * degToRad;
-				return sf::Vector2f(std::cos(radianAngle), std::sin(radianAngle));
+			template<typename T>
+			inline T randInt(T from, T to) {
+				return std::uniform_int_distribution<T>(from, to)(this->random);
 			}
+
 
 			inline float getLifetime() const {
-				return 5.0;
+				return this->lifetime;
 			}
 
 			inline void operator()(auto & particle) {
-
-				float spread = randFloat(-1.f, 1.f) * this->spread;
-				particle.velocity 
-					= toVector(angle + spread)
-					* this->initialSpeed 
-					* (1.f + randFloat(-this->speedVariation, this->speedVariation));
-
 				particle.rotation 
 					= this->initialRotation
-					+ (1.f + randFloat(-this->rotationVariation, this->rotationVariation));
+					+ (1.f + randFloat(-this->rotationVariation, this->rotationVariation));				
 
 				particle.age = 0.f;
 				particle.alive = true;
@@ -61,17 +54,14 @@ namespace dust {
 				particle.lifetime = this->getLifetime();
 				particle.color = sf::Color::White;
 
-				for(auto & var : particle.variation) {
-					var = this->randFloat(0.f, 1.f);
-				}
+				particle.variation = this->randFloat(-1.f, 1.f);
 			}
-
-		private:
-			std::mt19937_64 random;
-			float angle;
-			float spread;
+		protected:
 			float initialSpeed;
 			float speedVariation;
+		private:
+			std::mt19937_64 random;
+			float lifetime;
 			float initialRotation;
 			float rotationVariation;
 		};

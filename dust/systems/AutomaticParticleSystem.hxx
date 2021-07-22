@@ -22,7 +22,12 @@ namespace dust {
 			RenderPolicy>,
 		virtual public IAutomaticParticleSystem {
 	public:
+		// Set emmision rate
+		virtual void emit(double emission) override final {
+			this->emission = std::clamp(emission, 0.0, 1.0);
+		}
 
+	protected:
 		// Emit particles automaticle to keep a constant amount
 		// and delegates update to BasicParticle system
 		virtual void onUpdate(double dt) override {
@@ -39,12 +44,6 @@ namespace dust {
 				this->timer -= double(amount) * deltaEmit;
 				this->emitParticles(amount);
 			}
-		}
-
-
-		// Set emmision rate
-		virtual void emit(double emission) override final {
-			this->emission = std::clamp(emission, 0.0, 1.0);
 		}
 
 	private:

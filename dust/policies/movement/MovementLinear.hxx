@@ -1,7 +1,7 @@
 #pragma once
 namespace dust {
 	namespace policy {
-		class Movement {
+		class MovementLinear {
 		protected:
 			void operator()(auto & particle, float dt) {
 				particle.position += particle.velocity * float(dt);

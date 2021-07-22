@@ -17,6 +17,7 @@ Library("sfml", [
 dirs = [
 	"demo",
 	"dust",
+	"dust/utils",
 ]
 
 incl = [

@@ -1,7 +1,6 @@
 #pragma once
 #include "sfml.hxx"
 namespace dust {
-	template<std::size_t variationCount = 0>
 	struct BasicParticle {
 
 		inline operator bool() const {
@@ -19,6 +18,6 @@ namespace dust {
 
 		sf::Color color = sf::Color::White;
 
-		std::array<float, variationCount> variation;
+		float variation;
 	};
 }

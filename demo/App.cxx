@@ -74,28 +74,39 @@ void App::run() {
 
 	std::unique_ptr particleSystem = std::make_unique<
 		dust::AutomaticParticleSystem<
-			25000, dust::BasicParticle<0>,
-			dust::policy::EmitRect,
+			250, dust::BasicParticle,
+			dust::policy::EmitPolar<4>,
 			dust::policy::ColorLinear,
-			dust::policy::MovementAcceleration,
+			dust::policy::MovementFloating,
 			dust::policy::RotationConstant,
 			dust::policy::ScaleParabola,
 			dust::policy::RenderTexture
 		>>();
 
+
 	particleSystem->configColor(sf::Color::Cyan, sf::Color(64, 0, 128));
 	particleSystem->configRender(fireTexture);
-	particleSystem->configEmit(90.f, 180.0, 5.f, 1.0f, 0.0, 360.0);
-	particleSystem->configEmitRect(sf::Vector2f(1920, 0));
+	particleSystem->configLifetime(2.f);
+	// particleSystem->configEmitAngle(90.f, 180.0);
+	particleSystem->configEmitSpeed(128.f, 1.0f);
+	particleSystem->configEmitRotation(0.0, 360.0);
+	particleSystem->configEmitPoles({0, 90, 180, 270}, 10.0);
+	// particleSystem->configEmitRect(sf::Vector2f(1920, 0));
 	// particleSystem->configEmitCircle(256.f);
 	particleSystem->configRotation(46.f);
 	particleSystem->configScale(0.f, 1.f);
-	particleSystem->configMovement(1.0f);
+	particleSystem->configGravity(180.f, 100.f);
+	particleSystem->configMovement(0.5f);
+	particleSystem->configWiggle(1.f, 1.f);
+	// particleSystem->configMovement(0.25f);
 
 	particleSystem->setPosition({960.f, 540.f});
 	particleSystem->setRotation(0.0);
 	particleSystem->emit(1.0);
+	// particleSystem->setTickLimit(60);
 	
+	// particleSystem->start();
+
 	double timer;
 	while(window.isOpen()) {
 		then = now;
@@ -123,15 +134,12 @@ void App::run() {
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 			return;
 		}
+		// particleSystem->rotatePoles(180.f * float(dt));
 
 		std::cout << 1.0 / dt << std::endl;
-		window.clear(sf::Color::Black);
-		// iceParticleSystem->update(dt);
-		// fireParticleSystem->update(dt);
-		// iceParticleSystem->render(window);
-		// fireParticleSystem->render(window);
-
 		particleSystem->update(dt);
+
+		window.clear(sf::Color::Black);
 		particleSystem->render(window);
 		window.display();
 	}

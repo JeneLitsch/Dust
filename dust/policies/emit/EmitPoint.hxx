@@ -1,13 +1,13 @@
 #pragma once
-#include "EmitBasic.hxx"
+#include "EmitArea.hxx"
 namespace dust {
 	namespace policy {
 		// Emits particle at a point
-		class EmitPoint : public EmitBasic {
+		class EmitPoint : public EmitArea {
 		public:
 		protected:
 			inline void operator()(auto & particle) {
-				EmitBasic::operator()(particle);
+				EmitArea::operator()(particle);
 				particle.position = sf::Vector2f(0.f, 0.f);
 			}
 
