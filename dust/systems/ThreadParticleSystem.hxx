@@ -16,8 +16,7 @@ namespace dust {
 
 		void start() {
 			this->running = true;
-			this->thread = std::async(std::launch::async, 
-				std::bind(&ThreadParticleSystem::run, this));
+			this->thread = std::thread(std::bind(&ThreadParticleSystem::run, this));
 		}
 
 		void setTickLimit(unsigned tps) {
@@ -35,6 +34,7 @@ namespace dust {
 
 		virtual ~ThreadParticleSystem() {
 			this->running = false;
+			thread.join();
 		}
 	private:
 		void run() {
@@ -49,6 +49,6 @@ namespace dust {
 		std::mutex mutex;
 		std::atomic<bool> running;
 		std::atomic<std::size_t> vertexCount;
-		std::future<void> thread;
+		std::thread thread;
 	};
 }

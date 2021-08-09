@@ -33,7 +33,7 @@ namespace dust {
 
 
 			inline float deflection(float progress, float offset) const {
-				return std::sin((progress + offset) * M_PI * 2.f * this->wiggleSpeed) * this->wiggleStrength;
+				return std::sin((progress + offset) * static_cast<float>(M_PI) * 2.f * this->wiggleSpeed) * this->wiggleStrength;
 			}
 
 			float wiggleStrength;
