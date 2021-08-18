@@ -1,6 +1,7 @@
 #pragma once
 #include "BasicParticleSystem.hxx"
 #include <cmath>
+#include <iostream>
 namespace dust {
 	template<
 		std::size_t limit,
@@ -34,20 +35,19 @@ namespace dust {
 			this->timer += dt;
 
 			// figure out emmision rate
-			const double currentLimit = double(this->emission * limit);
 			const double lifetime = EmitPolicy::getLifetime();
-			const double deltaEmit = lifetime / currentLimit;
+			const double particlesPerSecond = static_cast<float>(limit) / lifetime * this->emission;
 			
-			// emit
-			if(deltaEmit > 0.0) {
-				std::size_t amount = static_cast<std::size_t>(timer / deltaEmit);
-				this->timer -= double(amount) * deltaEmit;
+			std::size_t amount = static_cast<std::size_t>(timer * particlesPerSecond);
+			std::cout << "emit: " << amount << std::endl;
+			if(amount) {
+				this->timer = 0.0;
 				this->emitParticles(amount);
 			}
 		}
 
 	private:
-		double emission;
-		double timer;
+		double emission = 0.0;
+		double timer = 0.0;
 	};
 }

@@ -72,16 +72,16 @@ void App::run() {
 	sf::Texture fireTexture;
 	fireTexture.loadFromFile("ice.png");
 
-	std::unique_ptr particleSystem = std::make_unique<dust::ThreadParticleSystem<
+	std::unique_ptr particleSystem = std::make_unique<
 		dust::AutomaticParticleSystem<
-			250, dust::BasicParticle,
+			3, dust::BasicParticle,
 			dust::policy::EmitPolar<4>,
 			dust::policy::ColorLinear,
 			dust::policy::MovementFloating,
 			dust::policy::RotationConstant,
 			dust::policy::ScaleParabola,
 			dust::policy::RenderTexture
-		>>>();
+		>>();
 
 
 	particleSystem->configColor(sf::Color::Cyan, sf::Color(64, 0, 128));
@@ -105,7 +105,6 @@ void App::run() {
 	particleSystem->emit(1.0);
 	// particleSystem->setTickLimit(60);
 	
-	particleSystem->start();
 
 	double timer;
 	while(window.isOpen()) {
