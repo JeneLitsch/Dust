@@ -12,6 +12,11 @@ namespace dust {
 				this->lifetime = lifetime;
 			}
 
+			void configEmitSize(float sizeX, float sizeY) {
+				this->sizeX = sizeX;
+				this->sizeY = sizeY;
+			}
+
 			void configEmitSpeed(float initialSpeed, float speedVariation) {
 				this->initialSpeed = initialSpeed;
 				this->speedVariation = speedVariation;
@@ -50,7 +55,7 @@ namespace dust {
 
 				particle.age = 0.f;
 				particle.alive = true;
-				particle.size = sf::Vector2f(32.f, 32.f);
+				particle.size = sf::Vector2f(sizeX, sizeY);
 				particle.lifetime = this->getLifetime();
 				particle.color = sf::Color::White;
 
@@ -64,6 +69,8 @@ namespace dust {
 			float lifetime;
 			float initialRotation;
 			float rotationVariation;
+			float sizeX = 32.f;
+			float sizeY = 32.f;
 		};
 	}
 }

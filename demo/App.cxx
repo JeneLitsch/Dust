@@ -102,7 +102,7 @@ void App::run() {
 
 	particleSystem->setPosition({960.f, 540.f});
 	particleSystem->setRotation(0.0);
-	particleSystem->emit(1.0);
+	particleSystem->emit(0.5);
 	// particleSystem->setTickLimit(60);
 	
 

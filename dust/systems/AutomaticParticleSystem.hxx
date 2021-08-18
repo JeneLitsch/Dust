@@ -37,9 +37,8 @@ namespace dust {
 			// figure out emmision rate
 			const double lifetime = EmitPolicy::getLifetime();
 			const double particlesPerSecond = static_cast<float>(limit) / lifetime * this->emission;
+			const std::size_t amount = static_cast<std::size_t>(timer * particlesPerSecond);
 			
-			std::size_t amount = static_cast<std::size_t>(timer * particlesPerSecond);
-			std::cout << "emit: " << amount << std::endl;
 			if(amount) {
 				this->timer = 0.0;
 				this->emitParticles(amount);
