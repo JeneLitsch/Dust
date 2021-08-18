@@ -2,6 +2,7 @@
 
 namespace dust {
 	namespace policy {
+		template<unsigned x>
 		struct None {
 			inline void operator()(auto & particle) const {
 				(void)(particle);
