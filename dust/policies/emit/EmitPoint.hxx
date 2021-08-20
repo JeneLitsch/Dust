@@ -8,7 +8,7 @@ namespace dust {
 		protected:
 			inline void operator()(auto & particle) {
 				EmitArea::operator()(particle);
-				particle.position = sf::Vector2f(0.f, 0.f);
+				particle.position = sf::Vector2f(this->originX, this->originY);
 			}
 
 		private:

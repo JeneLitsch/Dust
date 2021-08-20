@@ -17,6 +17,12 @@ namespace dust {
 				this->sizeY = sizeY;
 			}
 
+
+			void configEmitOrigin(float originX, float originY) {
+				this->originX = originX;
+				this->originY = originY;
+			}
+
 			void configEmitSpeed(float initialSpeed, float speedVariation) {
 				this->initialSpeed = initialSpeed;
 				this->speedVariation = speedVariation;
@@ -64,6 +70,8 @@ namespace dust {
 		protected:
 			float initialSpeed;
 			float speedVariation;
+			float originX = 0.f;
+			float originY = 0.f;
 		private:
 			std::mt19937_64 random;
 			float lifetime;

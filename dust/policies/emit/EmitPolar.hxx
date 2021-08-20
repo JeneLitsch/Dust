@@ -24,7 +24,7 @@ namespace dust {
 		protected:
 			inline void operator()(auto & particle) {
 				EmitBasic::operator()(particle);
-				particle.position = sf::Vector2f(0.f, 0.f);
+				particle.position = sf::Vector2f(this->originX, this->originX);
 				const float angle = getRandomAngle();
 				const float spread = randFloat(-1.f, 1.f) * this->spread;
 				particle.velocity 

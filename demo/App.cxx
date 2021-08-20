@@ -74,7 +74,7 @@ void App::run() {
 
 	std::unique_ptr particleSystem = std::make_unique<
 		dust::AutomaticParticleSystem<
-			3, dust::BasicParticle,
+			25000, dust::BasicParticle,
 			dust::policy::EmitPolar<4>,
 			dust::policy::ColorLinear,
 			dust::policy::MovementFloating,
@@ -98,6 +98,7 @@ void App::run() {
 	particleSystem->configGravity(180.f, 100.f);
 	particleSystem->configMovement(0.5f);
 	particleSystem->configWiggle(1.f, 1.f);
+	particleSystem->configEmitOrigin(100.f, 100.f);
 	// particleSystem->configMovement(0.25f);
 
 	particleSystem->setPosition({960.f, 540.f});
