@@ -1,7 +1,8 @@
 #pragma once
 #include <cmath>
 #include "sfml.hxx"
-#include "VectorUtils.hxx"
+#include "../../utils/VectorUtils.hxx"
+
 namespace dust {
 	namespace policy {
 		class MovementGravity {

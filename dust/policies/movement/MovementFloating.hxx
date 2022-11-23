@@ -1,7 +1,8 @@
 #pragma once
 #include <cmath>
 #include "sfml.hxx"
-#include "VectorUtils.hxx"
+#include "../../utils/VectorUtils.hxx"
+
 #include "MovementGravity.hxx"
 #include "MovementDampening.hxx"
 namespace dust {

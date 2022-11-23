@@ -1,7 +1,7 @@
 #pragma once
 #include <random>
 #include "sfml.hxx"
-#include "VectorUtils.hxx"
+#include "../../utils/VectorUtils.hxx"
 
 namespace dust {
 	namespace policy {
