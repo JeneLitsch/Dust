@@ -13,7 +13,7 @@ namespace dust {
 			}
 
 		protected:
-			inline void operator()(auto & particle, double) const {
+			inline void operator()(auto & particle, float) const {
 				const float progress = particle.age / particle.lifetime;
 				particle.color = sf::Color(
 					static_cast<std::uint8_t>(std::lerp(colorA.r, colorB.r, progress)),
