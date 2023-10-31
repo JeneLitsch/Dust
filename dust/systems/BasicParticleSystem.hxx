@@ -11,20 +11,16 @@ namespace dust {
 	template<
 		std::size_t limit,
 		class Particle,
-		class EmitPolicy,
-		class ColorPolicy,
-		class MovementPolicy,
-		class RotationPolicy,
-		class ScalePolicy,
-		class RenderPolicy>
+		class Renderer,
+		class Emitter,
+		typename ...Policies
+		>
 	class BasicParticleSystem : 
 		virtual public IParticleSystem,
-		public EmitPolicy,
-		public ColorPolicy,
-		public MovementPolicy,
-		public RotationPolicy,
-		public ScalePolicy,
-		public RenderPolicy {
+		public Renderer,
+		public Emitter,
+		public Policies...
+		{
 	public:
 		
 		BasicParticleSystem() {}
@@ -38,10 +34,8 @@ namespace dust {
 			this->onUpdate(dt);
 			for(auto & particle : particles) {
 				if(particle) {
-					ColorPolicy::operator()(particle);
-					MovementPolicy::operator()(particle, dtFloat);
-					RotationPolicy::operator()(particle, dtFloat);
-					ScalePolicy::operator()(particle);
+					using expander = int[];
+					(void) expander { 0, ((void) Policies::operator()(particle, dtFloat), 0)... };
 					particle.age += dtFloat;
 					particle.alive = particle.age <= particle.lifetime;
 				}
@@ -72,8 +66,8 @@ namespace dust {
 			states.transform = sf::Transform()
 				.translate(this->position)
 				.rotate(static_cast<float>(this->rotation));
-			states.texture = RenderPolicy::getTexture();
-			states.shader = RenderPolicy::getShader();
+			states.texture = Renderer::getTexture();
+			states.shader = Renderer::getShader();
 			
 			// drawcall
 			renderTarget.draw(vertecies.data(), vertexCount, sf::PrimitiveType::Quads, states);
@@ -88,7 +82,7 @@ namespace dust {
 				// Start at next and wrap around if nessasary
 				std::size_t idx = (this->next + i) % limit;
 				if(particles[idx]) {
-					RenderPolicy::operator()(particles[idx], &vertecies[vertexCount]);
+					Renderer::operator()(particles[idx], &vertecies[vertexCount]);
 					vertexCount += 4U;
 				}
 			}
@@ -99,7 +93,7 @@ namespace dust {
 		inline void emitParticles(std::size_t amount) {
 			if(!this->particles[this->next]) {
 				for(std::size_t i = 0; i < amount; i++) {
-					EmitPolicy::operator()(this->particles[this->next]);
+					Emitter::operator()(this->particles[this->next]);
 					this->next++;
 					this->next %= this->particles.size();
 				}

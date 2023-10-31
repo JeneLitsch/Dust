@@ -15,7 +15,7 @@ namespace dust {
 				this->base = 0.f;
 			}
 		protected:
-			inline void operator()(auto & particle) const {
+			inline void operator()(auto & particle, float) const {
 				float x = particle.age / particle.lifetime;
 				float y = -(2.f * x -1) * (2.f * x -1.f) + 1.f;
 				particle.scale = this->scale * y + this->base;

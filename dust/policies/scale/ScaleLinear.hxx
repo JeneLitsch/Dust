@@ -10,7 +10,7 @@ namespace dust {
 				this->scaleB = scaleB;
 			}
 		protected:
-			inline void operator()(auto & particle) const {
+			inline void operator()(auto & particle, float) const {
 				const float progress = particle.age / particle.lifetime;
 				particle.scale = std::lerp(scaleA, scaleB, progress);
 			}

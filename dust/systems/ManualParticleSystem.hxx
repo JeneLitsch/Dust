@@ -5,21 +5,19 @@ namespace dust {
 	template<
 		std::size_t limit,
 		class Particle,
-		class EmitPolicy,
-		class ColorPolicy,
-		class MovementPolicy,
-		class RotationPolicy,
-		class ScalePolicy,
-		class RenderPolicy>
-	class MainualParticleSystem 
+		class Rendered,
+		class Emitter,
+		typename ...Policies
+
+	>
+	class ManualParticleSystem 
 	:	virtual public BasicParticleSystem<
-			limit, Particle,
-			EmitPolicy,
-			ColorPolicy,
-			MovementPolicy,
-			RotationPolicy,
-			ScalePolicy,
-			RenderPolicy>,
+			limit,
+			Particle,
+			Rendered,
+			Emitter,
+			Policies...
+		>,
 		virtual public IManualParticleSystem {
 	public:
 

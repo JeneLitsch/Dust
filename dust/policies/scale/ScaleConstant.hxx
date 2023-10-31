@@ -9,7 +9,7 @@ namespace dust {
 				this->scale = scale;
 			}
 		protected:
-			inline void operator()(auto & particle) const {
+			inline void operator()(auto & particle, float) const {
 				particle.scale = this->scale;
 			}
 		private:

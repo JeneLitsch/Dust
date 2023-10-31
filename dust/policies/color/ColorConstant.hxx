@@ -10,7 +10,7 @@ namespace dust {
 			}
 		
 		protected:
-			inline void operator()(auto & particle) const {
+			inline void operator()(auto & particle, float) const {
 				particle.color = color;
 			}
 

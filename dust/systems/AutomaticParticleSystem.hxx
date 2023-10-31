@@ -6,21 +6,18 @@ namespace dust {
 	template<
 		std::size_t limit,
 		class Particle,
-		class EmitPolicy,
-		class ColorPolicy,
-		class MovementPolicy,
-		class RotationPolicy,
-		class ScalePolicy,
-		class RenderPolicy>
+		class Remderer,
+		class Emitter,
+		typename ...Policies
+	>
 	class AutomaticParticleSystem 
 	:	virtual public BasicParticleSystem<
-			limit, Particle,
-			EmitPolicy,
-			ColorPolicy,
-			MovementPolicy,
-			RotationPolicy,
-			ScalePolicy,
-			RenderPolicy>,
+			limit,
+			Particle,
+			Remderer,
+			Emitter,
+			Policies...
+		>,
 		virtual public IAutomaticParticleSystem {
 	public:
 		// Set emmision rate
@@ -35,7 +32,7 @@ namespace dust {
 			this->timer += dt;
 
 			// figure out emmision rate
-			const double lifetime = EmitPolicy::getLifetime();
+			const double lifetime = Emitter::getLifetime();
 			const double particlesPerSecond = static_cast<float>(limit) / lifetime * this->emission;
 			const std::size_t amount = static_cast<std::size_t>(timer * particlesPerSecond);
 			
