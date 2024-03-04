@@ -4,6 +4,7 @@
 #include <atomic>
 #include <future>
 #include <iostream>
+#include <functional>
 #include <chrono>
 namespace dust {
 	// Decorator  
